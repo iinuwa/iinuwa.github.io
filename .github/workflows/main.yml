@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and deploy the site
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Check out the repository
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          ls -la
+          git clone "https://github.com/$REPOSITORY" .
+
+      - name: Download Zola
+        run: |
+          version='v0.19.2'
+          archive="zola-${version}-x86_64-unknown-linux-gnu.tar.gz"
+          curl -L "https://github.com/getzola/zola/releases/download/${version}/${archive}" -o "$archive"
+          tar xf "$archive"
+
+      - name: Build the site
+        run: |
+          ./zola build
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
