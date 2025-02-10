@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  {% if page.title %}
+  <title>{{ page.title }} | iinuwa's Blog</title>
+  {% elif section.title %}
+  <title>{{ section.title }} | iinuwa's Blog</title>
+  {% else %}
+  <title>iinuwa's Blog</title>
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      {% block content %} {% endblock %}
+    </div>
+  </section>
+</body>
+
+</html>
