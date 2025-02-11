@@ -226,7 +226,7 @@ file extensions for this format are .p12 and .pfx.
 
 # More Information
 
-- [What's in a Digital Certificate (video)](What's in a Digital Certificate (video))
+- [What's in a Digital Certificate (video)](https://www.youtube.com/watch?v=XmIlynkR8J8)
 - [X.509 (Wikipedia article)](https://en.wikipedia.org/wiki/X.509)
-- [What is PKI? (video)](https://www.youtube.com/watch?v=i-rtxrEz_E8&t=14s)
+- [What is PKI? (video)](https://www.youtube.com/watch?v=i-rtxrEz_E8)
 - ["How to be a Certificate Authority with Ryan Sleevi" episode of _Security, Cryptography, Whatever_ podcast](https://securitycryptographywhatever.com/2021/09/06/how-to-be-a-certificate-authority-with-ryan-sleevi/)
