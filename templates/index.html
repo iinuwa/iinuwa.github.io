@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  iinuwa's blog.
-</h1>
+<header>
+  <h1 class="title">
+    iinuwa's blog.
+  </h1>
 
-<h2><a href="{{ get_url(path="blog/") }}">Posts</a></h2>
+  <p class="tagline">An engineer on a mission to provide open and secure access to the Internet for everyone.</p>
+</header>
+
+<section>
+  <h2><a href="{{ get_url(path="blog/") }}">Posts</a></h2>
+
+  {% set blog = get_section(path="blog/_index.md") %}
+  <ul>
+    {% for page in blog.pages %}
+    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a> <span class="date">({{ page.date }})</span></li>
+    {% endfor %}
+  <ul>
+</section>
 {% endblock content %}
