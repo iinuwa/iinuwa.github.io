@@ -20,14 +20,16 @@ a giant book on PHP that I didn't. I never thought I could become a programmer.
 
 # Finding Free Software
 
-<figure>
-  <picture>
-    <source srcset="/img/hello-world/score.avif" type="image/avif" />
-    <img src="/img/hello-world/score.jpg"
-         alt="A LilyPond transcription of a diddy I composed." />
-  </picture>
-  <figcaption>A LilyPond transcription of a diddy I composed.</figcaption>
-</figure>
+<aside>
+  <figure>
+    <picture>
+      <source srcset="/img/hello-world/score.avif" type="image/avif" />
+      <img src="/img/hello-world/score.jpg"
+           alt="A LilyPond transcription of a diddy I composed." />
+    </picture>
+    <figcaption>A LilyPond transcription of a diddy I composed.</figcaption>
+  </figure>
+</aside>
 
 That all changed when I was introduced to Ubuntu. My brother had a refurbished
 computer that he used for school. We couldn't afford to buy another one or
@@ -50,16 +52,18 @@ error messages and other troubleshooting techniques.
 
 # An Unexpected Career Path
 
-<figure>
-  <picture>
-    <source srcset="/img/hello-world/balloons.avif" type="image/avif" />
-    <img src="/img/hello-world/balloons.jpg"
-         alt="A picture of balloons created in Blender, inspired by the movie Up." />
-  </picture>
-  <figcaption>
-    A picture of balloons I created in Blender, inspired by the movie <i>Up</i>.
-  </figcaption>
-</figure>
+<aside>
+  <figure>
+    <picture>
+      <source srcset="/img/hello-world/balloons.avif" type="image/avif" />
+      <img src="/img/hello-world/balloons.jpg"
+           alt="A picture of balloons created in Blender, inspired by the movie Up." />
+    </picture>
+    <figcaption>
+      A picture of balloons I created in Blender, inspired by the movie <i>Up</i>.
+    </figcaption>
+  </figure>
+</aside>
 
 Heavily inspired by the Pixar movies I grew up watching, I aspired to become a
 3D animator. But I never learned to draw. Eventually, I went to college to
