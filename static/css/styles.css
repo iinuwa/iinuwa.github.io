@@ -1,4 +1,3 @@
-
 body {
   margin: 20px auto;
   max-width: 90%;
@@ -8,8 +7,24 @@ body {
   font-family: system-ui;
 }
 
+header {
+  padding: 10px 0;
+}
+header > h1 {
+  margin: 0px;
+  font-size: 2em;
+}
+header > p {
+  margin: 0px auto;
+}
+
 h1, h2, h3 {
   line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+h1 + p {
+  margin-top: 0;
 }
 
 aside {
@@ -25,4 +40,14 @@ figure {
 figure > img, figure > picture > img {
   width: 80%;
   max-width: 40em;
+}
+
+:not(pre) > code {
+  background-color: #eee;
+}
+
+blockquote {
+  border-left: solid gray 2px;
+  padding-left: 1em;
+  border-radius: 0.25em;
 }

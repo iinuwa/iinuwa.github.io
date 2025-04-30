@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  {{ page.title }}
-</h1>
-<p class="subtitle"><strong>{{ page.date }}</strong></p>
+<header>
+  <h1 class="title">
+    {{ page.title }}
+  </h1>
+  {% if page.description %}
+  <p>{{ page.description }}</p>
+  {% endif %}
+  <p class="subtitle">{{ page.date }}</p>
+</header>
+<main>
 {{ page.content | safe }}
+</main>
 <footer>
   <a href="{{ get_url(path="blog/") }}">[More posts]</a>
 </footer>
