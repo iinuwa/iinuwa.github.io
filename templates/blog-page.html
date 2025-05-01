@@ -8,6 +8,7 @@
   <meta name="description" content="{{ page.description }}">
   <meta itemprop="description" property="og:description" content="{{ page.description }}">
   {% endif %}
+  <meta itemprop="datePublished" property="article:published_time" content="{{ page.date ~ "T00:00:00Z" | date(timezone="America/Chicago", format="%Y-%m-%dT%H:%M:%S%z")}}">
 {% endblock metadata %}
 
 {% block itemtype %}https://schema.org/BlogPosting{% endblock itemtype %}
@@ -20,7 +21,12 @@
   {% if page.description %}
   <p>{{ page.description }}</p>
   {% endif %}
-  <p class="subtitle" itemprop="datePublished">{{ page.date }}</p>
+  <p class="subtitle">{{ page.date }}</p>
+
+  <span itemprop="author" itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Isaiah Inuwa">
+    <meta itemprop="identifier" content="iinuwa">
+  </span>
 </header>
 <main itemprop="articleBody">
 {{ page.content | safe }}
