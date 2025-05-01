@@ -6,7 +6,7 @@
 
   {% block metadata %}{% endblock %}
   <meta itemprop="url" property="og:url" content="{{ current_url }}">
-  <meta itemprop="image" property="og:image" content="/img/banner.png">
+  <meta itemprop="image" property="og:image" content="{{ get_url(path="img/banner.png") }}">
   <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 
