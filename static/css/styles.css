@@ -51,3 +51,10 @@ blockquote {
   padding-left: 1em;
   border-radius: 0.25em;
 }
+
+.profile-icons > a > img {
+  height: 32px;
+  width: 32px;
+  object-fit: scale-down;
+  padding: 6px;
+}
