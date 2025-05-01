@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block metadata %}
+  <title>{{ page.title }} | iinuwa's Blog</title>
+  <meta property="og:type" content="article">
+  <meta itemprop="headline" property="og:title" content="{{ page.title }}">
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  <meta itemprop="description" property="og:description" content="{{ page.description }}">
+  {% endif %}
+{% endblock metadata %}
+
+{% block itemtype %}https://schema.org/BlogPosting{% endblock itemtype %}
+
 {% block content %}
 <header>
   <h1 class="title">
@@ -8,9 +20,9 @@
   {% if page.description %}
   <p>{{ page.description }}</p>
   {% endif %}
-  <p class="subtitle">{{ page.date }}</p>
+  <p class="subtitle" itemprop="datePublished">{{ page.date }}</p>
 </header>
-<main>
+<main itemprop="articleBody">
 {{ page.content | safe }}
 </main>
 <footer>

@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block metadata %}
+  <title>{{ section.title }} | iinuwa's Blog</title>
+  <meta property="og:type" content="article">
+  <meta itemprop="headline" property="og:title" content="{{ section.title }}">
+{% endblock metadata %}
+
+{% block itemtype %}https://schema.org/Blog{% endblock itemtype %}
+
 {% block content %}
 <header>
 <h1 class="title">
@@ -8,7 +16,7 @@
 {% if page.description %}
 <p>{{ page.description }}</p>
 {% endif %}
-<header>
+</header>
 
 <ul>
   <!-- If you are using pagination, section.pages will be empty.

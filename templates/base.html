@@ -1,32 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head itemscope itemtype="https://schema.org/WebPage">
   <meta charset="utf-8">
-  {% if page.title %}
-  <title>{{ page.title }} | iinuwa's Blog</title>
-  <meta name="og:type" content="article">
-  <meta name="og:title" content="{{ page.title }}">
-  {% elif section.title %}
-  <title>{{ section.title }} | iinuwa's Blog</title>
-  <meta name="og:type" content="article">
-  <meta name="og:title" content="{{ section.title }}">
-  {% else %}
-  <title>iinuwa's Blog</title>
-  <meta name="og:type" content="website">
-  <meta name="og:title" content="iinuwa's Blog">
-  {% endif %}
-  {% if page.description %}
-  <meta name="description" content="{{ page.description }}">
-  <meta name="og:description" content="{{ page.description }}">
-  {% endif %}
-  <meta name="og:url" content="{{ current_url }}">
-  <meta name="og:image" content="/img/banner.png">
+
+  {% block metadata %}{% endblock %}
+  <meta itemprop="url" property="og:url" content="{{ current_url }}">
+  <meta itemprop="image" property="og:image" content="/img/banner.png">
   <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 
 <body>
-  <section class="section">
+  <section class="section" itemscope itemtype="{% block itemtype %}{% endblock %}">
     <div class="container">
       {% block content %} {% endblock %}
     </div>
