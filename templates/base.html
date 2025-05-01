@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="{% block itemtype %}{% endblock %}">
 
-<head itemscope itemtype="https://schema.org/WebPage">
+<head>
   <meta charset="utf-8">
 
   {% block metadata %}{% endblock %}
@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <section class="section" itemscope itemtype="{% block itemtype %}{% endblock %}">
+  <section class="section">
     <div class="container">
       {% block content %} {% endblock %}
     </div>
