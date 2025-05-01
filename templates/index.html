@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
+{% block itemtype %}https://schema.org/Blog{% endblock itemtype %}
+
 {% block metadata %}
   <title>iinuwa's Blog</title>
   <meta property="og:type" content="website">
   <meta property="og:title" content="iinuwa's Blog">
 {% endblock metadata %}
 
-{% block itemtype %}https://schema.org/Blog{% endblock itemtype %}
 {% block content %}
 <header itemscope itemtype="https://schema.org/Person">
   <h1 class="title">
@@ -33,6 +34,8 @@
     <a href="https://fosstodon.org/@iinuwa"><img alt="Link to Mastodon profile" src="https://joinmastodon.org/logos/logo-black.svg"></a>
 
     <a href="https://linkedin.com/in/iinuwa"><img alt="Link to LinkedIn profile" src="/img/linkedin-logo.png"></a>
+
+    <a href="https://stackexchange.com/users/16513734/iinuwa?tab=accounts"><img alt="Link to LinkedIn profile" src="/img/logo-stackexchange.png"></a>
   </div>
 </footer>
 {% endblock content %}
