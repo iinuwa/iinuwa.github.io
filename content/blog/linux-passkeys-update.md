@@ -1,6 +1,6 @@
 +++
 title = "Linux Passkeys Update"
-description = "Update on Linux API for passkeys"
+description = "An update on improving passkey support in Linux"
 date = "2025-05-19"
 tags = [["security", "linux", "passkeys"]]
 +++
