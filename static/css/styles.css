@@ -58,3 +58,7 @@ blockquote {
   object-fit: scale-down;
   padding: 6px;
 }
+
+.footnote-definition p {
+  display: inline;
+}
