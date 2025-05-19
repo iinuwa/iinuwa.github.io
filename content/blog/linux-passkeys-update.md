@@ -2,7 +2,7 @@
 title = "Linux Passkeys Update"
 description = "Update on Linux API for passkeys"
 date = "2025-05-19"
-tags = [["security", "linux"]]
+tags = [["security", "linux", "passkeys"]]
 +++
 
 With the announcements from big companies at World Password Day about passkeys,
@@ -24,12 +24,12 @@ and I can refine it later.
 
 # WebAuthn Overview
 
-For the past couple of years (has it been that long?), I've been working on a
-FIDO2/WebAuthn platform API for passkeys. I'm assuming you're familiar with
-passkeys and WebAuthn, if not, you can read Adam Langley's excellent ["Tour of
-WebAuthn"][tour-of-webauthn] for a comprehensive summary of the WebAuthn API,
-or Trail of Bits' [recent article][tob-cryptography-passkeys] as a shorter
-overview of its security model.
+On and off for the past couple of years (has it been that long?), I've been
+working on a FIDO2/WebAuthn platform API for passkeys. I'm assuming you're
+familiar with passkeys and WebAuthn, if not, you can read Adam Langley's
+excellent ["Tour of WebAuthn"][tour-of-webauthn] for a comprehensive summary of
+the WebAuthn API, or Trail of Bits' [recent article][tob-cryptography-passkeys]
+as a shorter overview of its security model.
 
 [tour-of-webauthn]: https://www.imperialviolet.org/tourofwebauthn/tourofwebauthn.html
 [tob-cryptography-passkeys]: https://blog.trailofbits.com/2025/05/14/the-cryptography-behind-passkeys/
@@ -43,7 +43,7 @@ Roughly, besides the user, there are 4 roles in WebAuthn transactions:
 - authenticator (may or may not be separate from the platform)
 
 As an example, on Windows, say you're trying to login to Foo Store on
-https://example.com, on Edge using a security key. In this situation, the
+`https://example.com`, on Edge using a security key. In this situation, the
 relying party is Foo Store, identified by the relying party ID (`rpId`)
 `example.com`, the client is Edge, and the authenticator is your FIDO2 security
 key. But the platform is actually Windows Hello.
@@ -69,7 +69,7 @@ authenticator provided by the platform.
 
 ### Trust boundaries between WebAuthn roles
 
-An great security model to provide to users would be:
+A great security model to provide to users would be:
 
 > An authenticator will only sign a request for a relying party if the user
 > requests via the relying party's application that they want a signature for
@@ -78,7 +78,7 @@ An great security model to provide to users would be:
 The key phrase is the part "via the relying party's application": this is the
 crux of the phishing resistance property of passkeys. Perhaps if the client,
 platform and authenticator and UI were all one packaged application, this would
-be easy. But since the authentication process passes between multiple roles
+be easy. But since the authentication request passes between multiple roles
 fulfilled by different processes, we must take steps to make sure that the
 context of the user's request is propagated correctly.
 
@@ -153,8 +153,8 @@ Some features this requires:
   `rpId`/origin
 - remote lookup of origin bindings: the platform must make calls out to
   external sites to match bindings.
-- Unspoofable UI: the user has to be able to trust the UI prompt
-- Exclusive access to authenticators: since policy checks are implemented in
+- unspoofable UI: the user has to be able to trust the UI prompt
+- exclusive access to authenticators: since policy checks are implemented in
   the platform, credentials can only be secure if requests are mediated by the
   platform.
 
@@ -233,8 +233,9 @@ API that used his library. It has been only on free nights and weekends, where
 my brain is mush, but the structure is slowly starting to form.
 
 In early 2024, Alfie reached out to me if I wanted to collaborate, and we did.
-We joined with another developer who worked on the WebAuthn authenticator
-library used in Firefox and are now working on the project at
+We joined with [Martin Sirringhaus][github-msirringhaus], who worked on the
+WebAuthn authenticator library used in Firefox and is being sponsored by SUSE
+to work on this project, which is hosted at
 [https://github.com/linux-credentials](https://github.com/linux-credentials).
 
 (We had hoped to make some more progress more quickly on the portal with
@@ -245,18 +246,20 @@ If you know of anyone willing to sponsor development on this work,
 [xdg-portal]: https://flatpak.github.io/xdg-desktop-portal/
 [dueno-fido-proxy]: https://blogs.gnome.org/dueno/bringing-fido2-device-support-to-sandboxes/
 [alfie-passkey-vision]: https://alfioemanuele.io/dev/2024/01/31/a-vision-for-passkeys-on-the-linux-desktop.html
+[github-msirringhaus]: https://github.com/msirringhaus
 
 ## Architecture proposal
 
 Here are some features we want to build:
 - USB authenticator support (done) ✅
 - caBLE/hybrid authenticator support (in-progress)
+- native Firefox integration
 - An API for third-party passkey providers to hook into the passkey selection
   UI, similar to the settings available in Android, Apple, and soon in Windows.
 - A platform authenticator
 
 So far, we have wired up USB authenticator support and are in process of adding
-hybrid/caBLE support. After that, we will work on productionizing the service,
+hybrid/caBLE support. (Shhh! Don't tell any, but we are testing this integration in Firefox with a web extension 😱. We'll have a native Firefox integration by the end of this.) After that, we will work on productionizing the service,
 splitting it into multiple components connected via D-Bus IPC, each of which
 are sandboxed using systemd and Landlock security features. We also will
 provide SELinux/AppArmor policies to protect credential and configuration files
@@ -326,9 +329,12 @@ provides a way for package managers to integrate package signatures into LSM
 policies. This gets us part of the way there. A naive example of how this could
 be used is: when the platform API receives a request, it can use the D-Bus
 caller PID to find its executable, verify that its signature is valid according
-to the package manager [^4], and then look up the package name of the binary,
-and use the package name somehow for whitelisting certain applications or
-mapping them to origins.
+to the package manager [^4], and then look up the package name of the
+executable, and use the package name somehow for whitelisting certain
+applications or mapping them to origins. This, of course, would only work for
+packaged applications; we'd need to either choose not to support unpackaged
+applications (which might be OK), or store some sort of hardcoded exception
+list in a config database (with some sort of tamper protections).
 
 Something similar has been [done at Google][google-binary-policy] on their
 Debian-based devices. One issue they ran into is that, unlike RPMs, there is not
@@ -366,7 +372,7 @@ access to the TPM key file could sign arbitrary WebAuthn challenges. No bueno.
 
 ### Protecting from the user
 
-We should at least make it so that arbitrary files running as the logged-in
+We should at least make it so that arbitrary processes running as the logged-in
 user cannot access the key blobs. We can accomplish this by running the
 platform authenticator as a separate service user and having it own the files.
 This means that exploiting the keys requires privilege escalation.
@@ -438,8 +444,9 @@ of my research on these topics, so it's a little fuzzy. But I think we would
 need to:
 
 - Pick an OS for the secure OS, like [OP-TEE][optee][^5]. There seems to be an
-  implementation for [Intel][optee-intel] (x86 in general?); perhaps we'd just need to adapt it to be able to use
-  the VTL exits and interrupts and shared memory coming from VSM.
+  implementation for [Intel][optee-intel] (x86 in general?); perhaps we'd just
+  need to adapt the HAL to be able to use the VTL exits and interrupts and
+  shared memory coming from VSM.
 - For handling cryptographic secrets in a way that is unaccessible to the guest
   OS, we'd need to create a way to provision the secrets only to VTL1.
   Depending on how we boot VTL1, this could perhaps be done using systemd-boot.
@@ -465,9 +472,10 @@ that implement SDCP, but at least [some reverse engineering][biometric-rev-eng]
 has been done on some SDCP-supported devices, so the community may be able to
 continue that work.
 
-Like I said, my knowledge here is lacking. But these ideas are not new: Matthew
-Garrett has written before about [virtualized security for Linux WebAuthn and
-biometrics][mjg-webauthn] and [hiding TPM secrets from the kernel][mjg-tpm].
+Like I said, I need to do a bit more research to know if these are viable. But
+these ideas are not new: for example, Matthew Garrett has written before about
+[virtualized security for Linux WebAuthn and biometrics][mjg-webauthn] and
+[hiding TPM secrets from the kernel][mjg-tpm].
 
 [aws-vsm]: https://lore.kernel.org/kvm/D47UPV0JIIMY.35CRZ8ZNZCGA1@amazon.com/
 [biometric-rev-eng]: https://blackwinghq.com/blog/posts/a-touch-of-pwn-part-i/
